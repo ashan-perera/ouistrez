@@ -28,6 +28,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> getActiveProductsByProductClass(String productClassId) {
+
+        return productRepository.findByIsDeletedAndProductClassId(Deleted.NO, productClassId).stream().map(ProductServiceImpl::convert).collect(Collectors.toList());
+
+    }
+
+    @Override
     public ProductResponse save(ProductSaveRequest productSaveRequest) {
 
         Product product = new Product();

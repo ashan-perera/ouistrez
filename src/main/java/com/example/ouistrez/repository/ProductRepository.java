@@ -10,4 +10,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     List<Product> findByIsDeleted(Deleted isDeleted);
 
+    List<Product> findByIsDeletedAndProductClassId(Deleted isDeleted, String productClassId);
+
 }

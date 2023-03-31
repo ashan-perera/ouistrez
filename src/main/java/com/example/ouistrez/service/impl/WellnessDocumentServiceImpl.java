@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
 
@@ -60,9 +61,7 @@ public class WellnessDocumentServiceImpl implements WellnessDocumentService {
         Gson gson = new Gson();
         WellnessDocumentSaveRequest wellnessDocumentSaveRequest = gson.fromJson(request, WellnessDocumentSaveRequest.class);
 
-//        (/root/Documents)
-        File dir = new File("/root/Documents" + wellnessDocumentSaveRequest.getPolicyNo());
-
+        File dir = new File(System.getProperty("user.home") + "/Documents/" + wellnessDocumentSaveRequest.getPolicyNo());
 
 //        File dir = new File("C:/Users/HP/Apps/" + wellnessDocumentSaveRequest.getPolicyNo());
         dir.mkdirs();
@@ -85,9 +84,21 @@ public class WellnessDocumentServiceImpl implements WellnessDocumentService {
 
         WellnessDocument save = wellnessDocumentRepository.save(wellnessDocument);
 
-        smsService.sendSMS(wellnessDocumentSaveRequest.getPolicyNo(), docFile.getAbsolutePath());
+        String message = "To download your Policy Schedule visit: " + ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wellnessDocument/File/" + wellnessDocument.getId() +
+                " To download Wordings visit: " + ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wellnessDocument/File/0a940002-8736-1ad1-8187-36fc63520000";
+
+        smsService.sendSMS(wellnessDocumentSaveRequest.getPolicyNo(), message, wellnessDocumentSaveRequest.getPhoneNo());
 
         return convert(save);
+
+    }
+
+    @Override
+    public File getFileById(String id) {
+
+        WellnessDocument wellnessDocument = wellnessDocumentRepository.getReferenceById(id);
+        File file = new File(wellnessDocument.getFilePath());
+        return file;
 
     }
 
@@ -99,6 +110,7 @@ public class WellnessDocumentServiceImpl implements WellnessDocumentService {
         wellnessDocumentResponse.setFileName(wellnessDocument.getFileName());
         wellnessDocumentResponse.setFilePath(wellnessDocument.getFilePath());
         wellnessDocumentResponse.setRelativePath(wellnessDocument.getRelativePath());
+        wellnessDocumentResponse.setPolicyScheduleURL(ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wellnessDocument/File/" + wellnessDocument.getId());
         wellnessDocumentResponse.setCreatedBy(wellnessDocument.getCreatedBy());
         wellnessDocumentResponse.setCreatedDateTime(wellnessDocument.getCreatedDateTime());
         wellnessDocumentResponse.setModifiedBy(wellnessDocument.getModifiedBy());

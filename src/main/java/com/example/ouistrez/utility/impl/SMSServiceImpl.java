@@ -15,7 +15,7 @@ import java.net.URLEncoder;
 public class SMSServiceImpl implements SMSService {
 
     @Override
-    public void sendSMS(String policyNo, String link) {
+    public void sendSMS(String policyNo, String message, String phoneNo) {
 
 //        LifePolicy lifePolicy = policyClient.getLifePolicyDetails(policyNo);
 
@@ -25,13 +25,13 @@ public class SMSServiceImpl implements SMSService {
 //            String phone = rehabContactNo(lifePolicy.getContactNo());
 //            String claim_no = "TR_" + provider;
 
-        String phone = "0716130474";
+        String sms = message;
         String claim_no = "WL-TEST";
 
             try {
 
                 // String text="test sms from jetty server";
-                URL oracle = new URL("http://172.20.10.16:8070/MO?sms="+ URLEncoder.encode(link, "utf-8") + "&phone=" + phone + "&claim_no=" + claim_no);
+                URL oracle = new URL("http://172.20.10.16:8070/MO?sms="+ URLEncoder.encode(sms, "utf-8") + "&phone=" + phoneNo + "&claim_no=" + claim_no);
 
 
                 URLConnection yc = oracle.openConnection();

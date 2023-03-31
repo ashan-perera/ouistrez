@@ -13,6 +13,7 @@ public class WellnessDocumentResponse {
     private String fileName;
     private String filePath;
     private String relativePath;
+    private String policyScheduleURL;
     private String createdBy;
     private Date createdDateTime;
     private String modifiedBy;

@@ -10,6 +10,8 @@ public interface ProductService {
 
     List<ProductResponse> getAllActiveProducts();
 
+    List<ProductResponse> getActiveProductsByProductClass(String productClassId);
+
     ProductResponse save(ProductSaveRequest productSaveRequest);
 
 }

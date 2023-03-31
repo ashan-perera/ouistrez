@@ -6,5 +6,6 @@ import lombok.Data;
 public class WellnessDocumentSaveRequest {
 
     private String policyNo;
+    private String phoneNo;
 
 }

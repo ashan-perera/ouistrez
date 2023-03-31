@@ -23,6 +23,13 @@ public class ProductController {
 
     }
 
+    @GetMapping("/getActiveProductsByProductClass/{productClassId}")
+    public List<ProductResponse> getActiveProductsByProductClass(@PathVariable String productClassId) {
+
+        return productService.getActiveProductsByProductClass(productClassId);
+
+    }
+
 //    @GetMapping("/getById/{id}")
 //    public Optional<ProductClassResponse> getById(@PathVariable("id") String id) {
 //
