@@ -1,40 +1,26 @@
 package com.example.ouistrez.utility.impl;
 
 import com.example.ouistrez.utility.SMSService;
+import org.apache.http.protocol.HTTP;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 
 @Service
 public class SMSServiceImpl implements SMSService {
 
     @Override
-    public void sendSMS(String policyNo, String message, String phoneNo) {
-
-//        LifePolicy lifePolicy = policyClient.getLifePolicyDetails(policyNo);
-
-
-
-
-//            String phone = rehabContactNo(lifePolicy.getContactNo());
-//            String claim_no = "TR_" + provider;
-
-        String sms = message;
-        String claim_no = "WL-TEST";
+    public void sendSMS(String policyNo, String message, String phoneNo, String category) {
 
             try {
 
-                // String text="test sms from jetty server";
-                URL oracle = new URL("http://172.20.10.16:8070/MO?sms="+ URLEncoder.encode(sms, "utf-8") + "&phone=" + phoneNo + "&claim_no=" + claim_no);
+                URL oracle = new URL("http://116.12.80.89:8082/dialog-sms/save?phoneNo="+ phoneNo + "&message=" + URLEncoder.encode(message, "utf-8") + "&policyNo=" + policyNo + "&category=" + category);
 
-
-                URLConnection yc = oracle.openConnection();
+                HttpURLConnection yc = (HttpURLConnection) oracle.openConnection();
+                yc.setRequestMethod("POST");
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(yc.getInputStream()));
                 String inputLine;
@@ -60,8 +46,6 @@ public class SMSServiceImpl implements SMSService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
-
 
     }
 

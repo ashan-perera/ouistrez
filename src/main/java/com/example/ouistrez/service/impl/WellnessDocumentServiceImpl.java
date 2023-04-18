@@ -42,6 +42,8 @@ public class WellnessDocumentServiceImpl implements WellnessDocumentService {
             generalPolicyResponse.setPolicyNo(gp.getPolicyNo());
             generalPolicyResponse.setCustomerName(gp.getCustomerName());
             generalPolicyResponse.setCustomerNic(gp.getCustomerNic());
+            generalPolicyResponse.setContactNo(gp.getContactNo());
+            generalPolicyResponse.setFromDate(gp.getFromDate());
             generalPolicyResponse.setPolicyBranch(gp.getPolicyBranch());
             generalPolicyResponse.setPremiumOutstanding(gp.getPremiumOutstanding());
 
@@ -77,6 +79,7 @@ public class WellnessDocumentServiceImpl implements WellnessDocumentService {
         WellnessDocument wellnessDocument = new WellnessDocument();
 
         wellnessDocument.setPolicyNo(wellnessDocumentSaveRequest.getPolicyNo());
+        wellnessDocument.setPhoneNo(wellnessDocumentSaveRequest.getPhoneNo());
         wellnessDocument.setFileName(multipartFile.getOriginalFilename());
         wellnessDocument.setFilePath(docFile.getAbsolutePath());
         wellnessDocument.setRelativePath("../" + wellnessDocumentSaveRequest.getPolicyNo() + "/" + multipartFile.getOriginalFilename());
@@ -84,10 +87,12 @@ public class WellnessDocumentServiceImpl implements WellnessDocumentService {
 
         WellnessDocument save = wellnessDocumentRepository.save(wellnessDocument);
 
-        String message = "To download your Policy Schedule visit: " + ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wellnessDocument/File/" + wellnessDocument.getId() +
-                " To download Wordings visit: " + ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wellnessDocument/File/0a940002-8736-1ad1-8187-36fc63520000";
+        //send SMS
+        String message = "Thank you for joining WELLNESS PLUS. To download your policy schedule please visit: " + ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wlns/fl/" + wellnessDocument.getId() + "\n" +
+                "To download your policy document please visit: " + ServletUriComponentsBuilder.fromCurrentContextPath().path("/").toUriString() + "wlns/fl/0a940002-8736-1ad1-8187-36fc63520000";
 
-        smsService.sendSMS(wellnessDocumentSaveRequest.getPolicyNo(), message, wellnessDocumentSaveRequest.getPhoneNo());
+
+        smsService.sendSMS(wellnessDocumentSaveRequest.getPolicyNo(), message, wellnessDocumentSaveRequest.getPhoneNo(), "WellnessDoc");
 
         return convert(save);
 

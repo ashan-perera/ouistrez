@@ -14,6 +14,9 @@ public class WellnessDocument extends BaseEntity {
     @Column(name = "POLICY_NO")
     private String policyNo;
 
+    @Column(name = "PHONE_NO")
+    private String phoneNo;
+
     @Column(name = "FILE_NAME", nullable = false, length = 50)
     private String fileName;
 

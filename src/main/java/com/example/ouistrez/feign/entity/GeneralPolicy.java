@@ -8,6 +8,7 @@ public class GeneralPolicy {
     private String policyNo;
     private String customerName;
     private String customerNic;
+    private String contactNo;
     private String customerAddress;
     private String policyBranch;
     private String premiumOutstanding;

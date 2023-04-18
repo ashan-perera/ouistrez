@@ -15,12 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 @RestController
-@RequestMapping("/wellnessDocument")
+@RequestMapping("/wlns")
 @CrossOrigin(origins = "*")
 public class WellnessDocumentController {
 
@@ -42,7 +40,7 @@ public class WellnessDocumentController {
 
     }
 
-    @GetMapping("File/{id}")
+    @GetMapping("fl/{id}")
     public ResponseEntity<Resource> getFile(@PathVariable("id") String id) throws IOException {
 
         File imgFile = wellnessDocumentService.getFileById(id);
